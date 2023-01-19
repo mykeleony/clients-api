@@ -3,9 +3,7 @@ package com.myke.clients.api.controller;
 import com.myke.clients.domain.model.Client;
 import com.myke.clients.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,5 +17,10 @@ public class ClientController {
     @GetMapping
     public List<Client> list() {
         return clientRepository.findAll();
+    }
+
+    @GetMapping("/{name}")
+    public List<Client> searchName(@PathVariable String name) {
+        return clientRepository.findByNameContaining(name);
     }
 }
