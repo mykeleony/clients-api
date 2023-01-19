@@ -1,5 +1,6 @@
 package com.myke.clients.domain.service;
 
+import com.myke.clients.domain.exception.BusinessException;
 import com.myke.clients.domain.model.Client;
 import com.myke.clients.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,13 @@ public class ClientServiceCatalog {
 
     @Transactional
     public Client save(Client client) {
+        boolean emailInUse = clientRepository.findByEmail(client.getEmail())
+                .stream().anyMatch(existingClient -> !existingClient.equals(client));
+
+        if (emailInUse) {
+            throw new BusinessException("There is already a user registered with this email. Please enter another email and try again.");
+        }
+
         return clientRepository.save(client);
     }
 
