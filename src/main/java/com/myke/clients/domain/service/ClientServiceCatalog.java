@@ -15,6 +15,11 @@ import java.util.List;
 public class ClientServiceCatalog {
     private ClientRepository clientRepository;
 
+    public Client search(Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow( () -> new BusinessException("This client does not exist."));
+    }
+
     public List<Client> findAll() {
         return clientRepository.findAll();
     }
