@@ -1,11 +1,12 @@
 package com.myke.clients.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Getter
@@ -18,6 +19,7 @@ public class Delivery {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Client client;
 
     @Embedded
@@ -27,13 +29,14 @@ public class Delivery {
     @Column(name = "d_status")
     private DeliveryStatus status;
 
+    @NotNull
     private BigDecimal rate;
 
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private OffsetDateTime orderDate;
 
     @Column(name = "finalization_date")
-    private LocalDateTime finalizationDate;
+    private OffsetDateTime finalizationDate;
 
     @Override
     public boolean equals(Object o) {
