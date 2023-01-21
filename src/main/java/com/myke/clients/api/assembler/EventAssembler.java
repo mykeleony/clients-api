@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Component
 public class EventAssembler {
@@ -14,5 +17,11 @@ public class EventAssembler {
 
     public EventOutput toModel(Event event) {
         return modelMapper.map(event, EventOutput.class);
+    }
+
+    public List<EventOutput> toCollectionModel(List<Event> events) {
+        return events.stream()
+                .map(this :: toModel)
+                .collect(Collectors.toList());
     }
 }

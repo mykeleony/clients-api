@@ -7,6 +7,8 @@ import com.myke.clients.domain.repository.DeliveryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class SearchDeliveryService {
@@ -16,6 +18,10 @@ public class SearchDeliveryService {
     public Delivery search(Long deliveryId) {
         return deliveryRepository.findById(deliveryId)
                 .orElseThrow(() -> new InexistentEntityException("There is not a delivery with the specified id."));
+    }
+
+    public List<Delivery> findAll() {
+        return deliveryRepository.findAll();
     }
 
 }
