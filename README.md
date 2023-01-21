@@ -6,13 +6,11 @@ Welcome to a professional and elegant Spring-based REST API project! I am proud 
 ```java
 @Entity
 public class Client {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-
-    // getters and setters
+    //...
 }
 ```
 
@@ -21,25 +19,28 @@ The API uses JPA and Hibernate to handle data storage and retrieval, allowing fo
 ## Bean Validation
 
 ```java
-@NotNull
-@Size(min = 2, max = 100)
-private String name;
+public class ClientInput {
+
+    @NotBlank
+    @Size(max = 255)
+    private String name;
+    //...
 ```
 
-Utilizing the built-in validation capabilities of Spring, we ensure that all incoming data is properly formatted and meets the requirements of our application. This guarantees that our data is always valid and consistent, ensuring a smooth user experience.
+Utilizing the built-in validation classes capabilities of Spring within representation classes, we ensure that all incoming data is properly formatted and meets the requirements of our application. This guarantees that our data is always valid and consistent, ensuring a smooth user experience.
 
 ## Exception Handling
 ```java
-@ControllerAdvice
-public class GlobalExceptionHandler {
+@ExceptionHandler(BusinessException.class)
+public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException ex) {
-        ApiError apiError = new ApiError(BAD_REQUEST);
-        apiError.setMessage("Validation error");
-        apiError.addValidationErrors(ex.getConstraintViolations());
-        return buildResponseEntity(apiError);
-    }
+    Problem problem = new Problem();
+    problem.setStatus(status.value());
+    problem.setDateAndHour(OffsetDateTime.now());
+    problem.setTitle(ex.getMessage());
+
+    return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 }
 ```
 
@@ -47,9 +48,10 @@ Spring's exception handling capabilities allow us to gracefully handle any error
 
 ## Non-CRUD Operations Management
 ```java
-@GetMapping
-public Page<Client> findAll(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@PutMapping("/{deliveryId}/conclusion")
+public void conclude(@PathVariable Long deliveryId) {
+    deliveryFinalizationService.conclude(deliveryId);
 }
 ```
 
@@ -60,12 +62,12 @@ By utilizing Spring's support for microservices, we are able to break our API do
 
 ## ISO Date and Time Format
 ```java
-private LocalDateTime createdAt;
+private OffsetDateTime requestMoment;
 ```
 
 We use the ISO format for all date and time data, ensuring consistency and compatibility across different systems and languages. This guarantees that our data is always accurate and easily understood by all users.
 
 ## Productivity and maintenance
-In addition to Spring, the project utilize other tools such as **Flyway** for database migrations , **DevTools** for enhanced development experience and **Lombok** for model/data objects boilerplate code reduction. 
+In addition to Spring, the project utilize other tools such as **Flyway** for database migrations, **DevTools** for enhanced development experience and **Lombok** for model/data objects boilerplate code reduction. 
 
 This API is designed to be both user-friendly and technically robust, utilizing the latest industry standards and best practices. So dive in and start exploring the capabilities of this API right now!
