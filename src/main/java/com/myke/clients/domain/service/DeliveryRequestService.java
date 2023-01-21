@@ -1,10 +1,13 @@
 package com.myke.clients.domain.service;
 
+import com.myke.clients.api.assembler.DeliveryAssembler;
+import com.myke.clients.api.model.DeliveryOutput;
 import com.myke.clients.domain.model.Client;
 import com.myke.clients.domain.model.Delivery;
 import com.myke.clients.domain.model.DeliveryStatus;
 import com.myke.clients.domain.repository.DeliveryRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,17 +18,18 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class DeliveryRequestService {
+
     private ClientServiceCatalog clientServiceCatalog;
     private DeliveryRepository deliveryRepository;
+    private DeliveryAssembler deliveryAssembler;
 
     public List<Delivery> findAll() {
         return deliveryRepository.findAll();
     }
 
-    public ResponseEntity<Delivery> search(Long id) {
+    public ResponseEntity<DeliveryOutput> search(Long id) {
         return deliveryRepository.findById(id)
-                .map(ResponseEntity :: ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(delivery -> ResponseEntity.ok(deliveryAssembler.toModel(delivery))).orElse(ResponseEntity.notFound().build());
     }
 
     @Transactional
