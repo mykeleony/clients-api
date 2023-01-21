@@ -1,6 +1,7 @@
 package com.myke.clients.api.exceptionhandler;
 
 import com.myke.clients.domain.exception.BusinessException;
+import com.myke.clients.domain.exception.InexistentEntityException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -52,6 +53,19 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Problem problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDateAndHour(OffsetDateTime.now());
+        problem.setTitle(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(InexistentEntityException.class)
+    public ResponseEntity<Object>
+        handleInexistentEntityException(InexistentEntityException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
 
         Problem problem = new Problem();
         problem.setStatus(status.value());

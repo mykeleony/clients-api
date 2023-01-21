@@ -40,7 +40,7 @@ public class Delivery {
     @Column(name = "finalization_date")
     private OffsetDateTime finalizationDate;
 
-    @OneToMany(mappedBy = "delivery")
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 
     public Event addEvent(String description) {

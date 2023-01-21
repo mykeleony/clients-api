@@ -1,6 +1,7 @@
 package com.myke.clients.domain.service;
 
 import com.myke.clients.domain.exception.BusinessException;
+import com.myke.clients.domain.exception.InexistentEntityException;
 import com.myke.clients.domain.model.Delivery;
 import com.myke.clients.domain.repository.DeliveryRepository;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ public class SearchDeliveryService {
 
     public Delivery search(Long deliveryId) {
         return deliveryRepository.findById(deliveryId)
-                .orElseThrow(() -> new BusinessException("There is not a delivery with the specified id."));
+                .orElseThrow(() -> new InexistentEntityException("There is not a delivery with the specified id."));
     }
 
 }
