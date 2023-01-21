@@ -1,5 +1,7 @@
 package com.myke.clients.api.controller;
 
+import com.myke.clients.api.assembler.ClientAssembler;
+import com.myke.clients.api.model.input.ClientInput;
 import com.myke.clients.domain.model.Client;
 import com.myke.clients.domain.repository.ClientRepository;
 import com.myke.clients.domain.service.ClientServiceCatalog;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ClientController {
     private ClientRepository clientRepository;
     private ClientServiceCatalog clientServiceCatalog;
+    private ClientAssembler clientAssembler;
 
     @GetMapping
     public List<Client> list() {
@@ -35,14 +38,18 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client add(@Valid @RequestBody Client client) {
-        return clientServiceCatalog.save(client);
+    public Client add(@Valid @RequestBody ClientInput clientInput) {
+        Client newClient = clientAssembler.toEntity(clientInput);
+
+        return clientServiceCatalog.save(newClient);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> update(@PathVariable Long id, @Valid @RequestBody Client client) {
+    public ResponseEntity<Client> update(@PathVariable Long id, @Valid @RequestBody ClientInput clientInput) {
         if(!clientRepository.existsById(id))
             return ResponseEntity.notFound().build();
+
+        Client client = clientAssembler.toEntity(clientInput);
 
         client.setId(id);
         client = clientServiceCatalog.save(client);

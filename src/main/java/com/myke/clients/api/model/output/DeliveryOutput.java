@@ -1,4 +1,4 @@
-package com.myke.clients.api.model;
+package com.myke.clients.api.model.output;
 
 import com.myke.clients.domain.model.DeliveryStatus;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 public class DeliveryOutput {
 
     private Long id;
-    private ClientShortModel client;
+    private ClientOutput client;
     private RecipientOutput recipient;
     private BigDecimal rate;
     private DeliveryStatus status;

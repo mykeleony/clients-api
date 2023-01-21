@@ -1,13 +1,12 @@
 package com.myke.clients.domain.service;
 
 import com.myke.clients.api.assembler.DeliveryAssembler;
-import com.myke.clients.api.model.DeliveryOutput;
+import com.myke.clients.api.model.output.DeliveryOutput;
 import com.myke.clients.domain.model.Client;
 import com.myke.clients.domain.model.Delivery;
 import com.myke.clients.domain.model.DeliveryStatus;
 import com.myke.clients.domain.repository.DeliveryRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

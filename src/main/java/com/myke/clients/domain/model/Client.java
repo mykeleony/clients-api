@@ -18,17 +18,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 255)
     @Column(name = "cname")
     private String name;
 
-    @NotBlank
-    @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 20)
     private String phone;
 
     @Override

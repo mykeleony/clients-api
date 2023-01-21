@@ -1,6 +1,7 @@
 package com.myke.clients.api.assembler;
 
-import com.myke.clients.api.model.DeliveryOutput;
+import com.myke.clients.api.model.input.DeliveryInput;
+import com.myke.clients.api.model.output.DeliveryOutput;
 import com.myke.clients.domain.model.Delivery;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,5 +24,9 @@ public class DeliveryAssembler {
         return deliveries.stream()
                 .map(this :: toModel)
                 .collect(Collectors.toList());
+    }
+
+    public Delivery toEntity(DeliveryInput deliveryInput) {
+        return modelMapper.map(deliveryInput, Delivery.class);
     }
 }
