@@ -1,7 +1,7 @@
 CREATE TABLE event(
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   delivery_id BIGINT NOT NULL,
-  descricao TEXT NOT NULL,
+  description TEXT NOT NULL,
   registration_moment DATETIME NOT NULL
 );
 
