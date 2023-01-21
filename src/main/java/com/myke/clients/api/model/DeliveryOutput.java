@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 public class DeliveryOutput {
 
     private Long id;
-    private String clientName;
+    private ClientShortModel client;
     private RecipientOutput recipient;
     private BigDecimal rate;
     private DeliveryStatus status;
