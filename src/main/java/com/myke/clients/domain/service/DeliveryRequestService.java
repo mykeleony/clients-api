@@ -26,11 +26,6 @@ public class DeliveryRequestService {
         return deliveryRepository.findAll();
     }
 
-    public ResponseEntity<DeliveryOutput> search(Long id) {
-        return deliveryRepository.findById(id)
-                .map(delivery -> ResponseEntity.ok(deliveryAssembler.toModel(delivery))).orElse(ResponseEntity.notFound().build());
-    }
-
     @Transactional
     public Delivery request(Delivery delivery) {
         Client client = clientServiceCatalog.search(delivery.getClient().getId());
