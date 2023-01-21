@@ -43,6 +43,14 @@ public class Delivery {
     @OneToMany(mappedBy = "delivery")
     private List<Event> events = new ArrayList<>();
 
+    public Event addEvent(String description) {
+        Event event = new Event(this, description, OffsetDateTime.now());
+
+        this.getEvents().add(event);
+
+        return event;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

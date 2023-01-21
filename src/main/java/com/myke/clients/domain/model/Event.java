@@ -1,8 +1,7 @@
 package com.myke.clients.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -10,6 +9,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Event {
 
     @Id
@@ -17,9 +18,13 @@ public class Event {
     private Long id;
 
     @ManyToOne
+    @NonNull
     private Delivery delivery;
 
+    @NonNull
     private String description;
+
+    @NonNull
     private OffsetDateTime registrationMoment;
 
     @Override
