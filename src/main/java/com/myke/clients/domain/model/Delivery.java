@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -37,6 +39,9 @@ public class Delivery {
 
     @Column(name = "finalization_date")
     private OffsetDateTime finalizationDate;
+
+    @OneToMany(mappedBy = "delivery")
+    private List<Event> events = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
