@@ -1,5 +1,6 @@
 package com.myke.clients.domain.model;
 
+import com.myke.clients.domain.exception.BusinessException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -61,5 +62,17 @@ public class Delivery {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public void conclude() {
+        if (!canBeConcluded())
+            throw new BusinessException("Delivery could not be concluded.");
+
+        setStatus(DeliveryStatus.CONCLUDED);
+        setFinalizationDate(OffsetDateTime.now());
+    }
+
+    public boolean canBeConcluded() {
+        return getStatus().equals(DeliveryStatus.PENDING);
     }
 }

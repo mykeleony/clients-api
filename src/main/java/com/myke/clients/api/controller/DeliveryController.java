@@ -4,6 +4,7 @@ import com.myke.clients.api.assembler.DeliveryAssembler;
 import com.myke.clients.api.model.input.DeliveryInput;
 import com.myke.clients.api.model.output.DeliveryOutput;
 import com.myke.clients.domain.model.Delivery;
+import com.myke.clients.domain.service.DeliveryFinalizationService;
 import com.myke.clients.domain.service.DeliveryRequestService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class DeliveryController {
 
     private DeliveryRequestService deliveryRequestService;
     private DeliveryAssembler deliveryAssembler;
+    private DeliveryFinalizationService deliveryFinalizationService;
 
     @GetMapping
     public List<DeliveryOutput> findAll() {
@@ -42,5 +44,10 @@ public class DeliveryController {
         return deliveryAssembler.toModel(requestedDelivery);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{deliveryId}/conclusion")
+    public void conclude(@PathVariable Long deliveryId) {
+        deliveryFinalizationService.conclude(deliveryId);
+    }
 
 }
